@@ -38,8 +38,7 @@
 
           :else
           {:rejected s
-           :rest (string/join (list* h t))})))))
-
+           :rest (string/join (concat h t))})))))
 
 (def automaton
   (dfa
