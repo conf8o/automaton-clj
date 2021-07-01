@@ -10,15 +10,18 @@
 
 (defmethod q1 \a [[_ & tail]] (q2 tail))
 (defmethod q1 \b [[_ & tail]] (q1 tail))
-(defmethod q1 :default [_] (println "Rejected on q1"))
+(defmethod q1 :default [x] {:rejected :q1 :rest x})
 
 (defmethod q2 \a [[_ & tail]] (q2 tail))
 (defmethod q2 \b [[_ & tail]] (q3 tail))
-(defmethod q2 :default [_] (println "Rejected on q2"))
+(defmethod q2 :default [x] {:rejected :q2 :rest x})
 
 (defmethod q3 \a [[_ & tail]] (q3 tail))
 (defmethod q3 \b [[_ & tail]] (q3 tail))
-(defmethod q3 :default [_] (do (println "Accepted") :accepted))
+(defmethod q3 :default [x]
+  (if x
+    {:rejected :q3 :rest (string/join x)}
+    {:accepted :q3}))
 
 ; アルゴリズム的な決定性有限オートマトン
 (defn dfa [charcters mapping acceptions]
